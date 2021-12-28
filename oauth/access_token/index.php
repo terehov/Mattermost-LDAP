@@ -7,8 +7,8 @@ session_start();
 
 
 // include our LDAP object
-require_once __DIR__.'/LDAP/LDAP.php';
-require_once __DIR__.'/LDAP/config_ldap.php';
+require_once __DIR__.'/../LDAP/LDAP.php';
+require_once __DIR__.'/../LDAP/config_ldap.php';
 
 $prompt_template = new DOMDocument();
 $prompt_template->loadHTMLFile('form_prompt.html');

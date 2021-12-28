@@ -37,8 +37,10 @@ class LDAP implements LDAPInterface
             throw new InvalidArgumentException('Second argument to LDAP must be the ldap server port (int). Ex : 389');
         }
 
-        $ldap = ldap_connect($ldap_host, $ldap_port)
+        $ldap = ldap_connect($ldap_host.':'.$ldap_port)
             or die("Unable to connect to the ldap server : $ldaphost ! Please check your configuration.");
+
+        ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
         // Support LDAP V3 since many users have encountered difficulties with LDAP V3.
         if (is_int($ldap_version) && $ldap_version <= 3 && $ldap_version > 0) {
@@ -101,6 +103,7 @@ class LDAP implements LDAPInterface
 
         // If LDAP service account for search is specified, do an ldap_bind with this account
         if ($ldap_bind_dn != '' && $ldap_bind_dn != null) {
+
             $bind_result=ldap_bind($this->ldap_server, $ldap_bind_dn, $ldap_bind_pass);
 
             // If authentification failed, throw an exception
@@ -113,8 +116,6 @@ class LDAP implements LDAPInterface
         } else {
             $search_filter = '(' . $ldap_search_attribute . '=' . $user . ')';
         }
-
-
         $result = ldap_search($this->ldap_server, $ldap_base_dn, $search_filter, array(), 0, 1, 500);
 
         if (!$result) {
