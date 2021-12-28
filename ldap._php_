@@ -11,7 +11,7 @@ $hostname = "ldap://".getenv('CLOUDRON_LDAP_SERVER').":".intval(getenv('CLOUDRON
 $ldap_version = 3;
 
 // User identifier - UID
-$uid = "test@intern";
+$uid = "test";
 
 // Bind directory name
 $bind_dn = getenv('CLOUDRON_LDAP_BIND_DN');
